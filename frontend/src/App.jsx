@@ -1,12 +1,15 @@
-import { Button } from "@/components/ui/button"
+import React from "react";
+import { Route, Routes } from "react-router";
+import PortalAccess from "./pages/Auth/PortalAccess";
 
-
-function App() {
+const App = () => {
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center">
-      <Button>Click me</Button>
+    <div>
+      <Routes>
+        <Route path="/portalaccess" element={<PortalAccess />} />
+      </Routes>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

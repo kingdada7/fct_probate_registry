@@ -106,10 +106,77 @@ function PortalAccess() {
                 application status in real-time, and manage your legal documents
                 securely.
               </p>
+              <button className="w-full bg-[#13a046] text-white py-3 px-6 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-[#13a046]/90 transition-colors  cursor-pointer">
+                Login as Citizen <LogIn className="w-5 h-5" />
+              </button>
             </div>
+            <div className="bg-white rounded-xl shadow-md p-8 hover:shadow-lg transition-shadow">
+              <div className="w-12 h-12 bg-[#C5A059]/10 rounded-lg flex items-center justify-center mb-6">
+                <Gavel className="w-6 h-6 text-[#C5A059]" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Administrative Portal
+              </h2>
+              <p className="text-gray-600 mb-8 leading-relaxed">
+                Secure access for Court Registrars, Judges, and authorized
+                Administrative Staff to review, process, and manage probate
+                filings
+              </p>
+              <button className="w-full bg-[#C5A059] text-white py-3 px-6 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-[#C5A059]/90 transition-colors cursor-pointer">
+                Login as Official <ShieldUser className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+          <div className="text-center">
+            <p className="text-gray-600">
+              New to the Portal?{""}{" "}
+              <a
+                href="#"
+                className="text-[#13a046] font-semibold underline underline-offset-4 decoration-[#13a046]/30 hover:decoration-[#13a046] "
+              >
+                Read the applicatin Guide
+              </a>
+            </p>
           </div>
         </div>
       </main>
+      <footer className="bg-white border-t border-gray-200 py-8 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center">
+            <div className="flex items-center gap-2 mb-6">
+              <ShieldCheck className="w-5 h-5 text-[#13a046]" />
+              <span className="text-sm font-semibold text-[#13a046] tracking-wide">
+                {" "}
+                OFFICIAL GOVERNMENT PORTAL
+              </span>
+            </div>
+            <div className="flex flex-wrap justify-center gap-6 mb-6">
+              {" "}
+              <a href="#" className="text-sm text-gray-600 hover:text-gray-900">
+                Privacy Policy
+              </a>
+              <a href="#" className="text-sm text-gray-600 hover:text-gray-900">
+                Terms of Service
+              </a>
+              <a href="#" className="text-sm text-gray-600 hover:text-gray-900">
+                Accessibility
+              </a>
+              <a href="#" className="text-sm text-gray-600 hover:text-gray-900">
+                Legal Disclaimer
+              </a>
+            </div>
+
+            <div className="text-center">
+              <p className="text-sm text-gray-500 mb-1">
+                © 2026 FCT Customary Court of Nigeria. All Rights Reserved.
+              </p>
+              <p className="text-sm text-gray-500">
+                Court Complex, Abuja, Nigeria.
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

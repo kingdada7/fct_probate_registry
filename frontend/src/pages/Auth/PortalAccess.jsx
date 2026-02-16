@@ -107,10 +107,12 @@ function PortalAccess() {
                 application status in real-time, and manage your legal documents
                 securely.
               </p>
-              <button className="w-full bg-[#13a046] text-white py-3 px-6 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-[#13a046]/90 transition-colors  cursor-pointer">
-                <Link to="/citizenlogin"> Login as Citizen</Link>{" "}
-                <LogIn className="w-5 h-5" />
-              </button>
+              <Link to="/citizenlogin">
+                {" "}
+                <button className="w-full bg-[#13a046] text-white py-3 px-6 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-[#13a046]/90 transition-colors  cursor-pointer">
+                  Login as Citizen <LogIn className="w-5 h-5" />
+                </button>
+              </Link>
             </div>
             <div className="bg-white rounded-xl shadow-md p-8 hover:shadow-lg transition-shadow">
               <div className="w-12 h-12 bg-[#C5A059]/10 rounded-lg flex items-center justify-center mb-6">
@@ -124,9 +126,12 @@ function PortalAccess() {
                 Administrative Staff to review, process, and manage probate
                 filings
               </p>
-              <button className="w-full bg-[#C5A059] text-white py-3 px-6 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-[#C5A059]/90 transition-colors cursor-pointer">
-                Login as Official <ShieldUser className="w-5 h-5" />
-              </button>
+              <Link to="/adminlogin">
+                {" "}
+                <button className="w-full bg-[#C5A059] text-white py-3 px-6 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-[#C5A059]/90 transition-colors cursor-pointer">
+                  Login as Official <ShieldUser className="w-5 h-5" />
+                </button>
+              </Link>
             </div>
           </div>
           <div className="text-center">

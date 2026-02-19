@@ -4,6 +4,7 @@ import PortalAccess from "./pages/Auth/PortalAccess";
 import CitizenLogin from "./pages/Auth/citizen/CitizenLogin";
 import CitizenRegistration from "./pages/Auth/citizen/CitizenRegistration";
 import UnifiedAdminLogin from "./pages/Auth/admin/UnifiedAdminLogin";
+import SuperAdminRegister from "./pages/Auth/admin/SuperAdminRegister";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path="/citizenlogin" element={<CitizenLogin />} />
         <Route path="/citizenregistration" element={<CitizenRegistration />} />
         <Route path="/adminlogin" element={<UnifiedAdminLogin />} />
+        <Route path="/superadminregister" element={<SuperAdminRegister />} />
       </Routes>
     </div>
   );

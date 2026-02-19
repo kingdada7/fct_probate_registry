@@ -2,10 +2,9 @@ import React from "react";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { IoShieldCheckmark } from "react-icons/io5";
 import { CiLock } from "react-icons/ci";
-import { IoEye } from "react-icons/io5";
-import { IoEyeOff } from "react-icons/io5";
+
 import { Eye, EyeOff, Key } from "lucide-react";
-import { IoShieldOutline } from "react-icons/io5";
+
 import { MdAlternateEmail } from "react-icons/md";
 import { InfinitySpin } from "react-loader-spinner";
 import { useEffect, useState } from "react";
@@ -178,10 +177,7 @@ function StandardAdminUI() {
       <div className="mt-6 text-center">
         <p className="text-sm text-gray-700">
           Don't have an account?{" "}
-          <a
-            href="/CitizenRegistration"
-            className="text-[#1a5c3a] font-semibold hover:underline"
-          >
+          <a href="/" className="text-[#1a5c3a] font-semibold hover:underline">
             Register here
           </a>
         </p>
@@ -259,10 +255,7 @@ const SuperAdminUI = () => {
       <div className="mt-6 text-center">
         <p className="text-sm text-gray-700">
           Don't have an account?{" "}
-          <a
-            href="/CitizenRegistration"
-            className="text-[#C7A008] font-semibold hover:underline"
-          >
+          <a href="/superadminregister" className="text-[#C7A008] font-semibold hover:underline">
             Register here
           </a>
         </p>

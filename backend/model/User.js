@@ -10,11 +10,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      lowercase: true,
+      trim: true,
     },
 
     password: {
       type: String,
       required: true,
+      select: false,
     },
 
     role: {
@@ -22,12 +25,23 @@ const userSchema = new mongoose.Schema(
       enum: ["standard-admin", "citizen", "super-admin"],
       default: "citizen",
     },
-    
+
+    status: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "approved",
+    },
+
     resetPasswordToken: String,
     resetPasswordExpire: Date,
 
     superAdminToken: {
       type: String,
+      required: true,
+      uppercase: true,
+      required: function () {
+        return this.role === "super-admin";
+      },
     },
   },
   { timestamps: true },

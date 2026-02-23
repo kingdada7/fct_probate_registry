@@ -3,6 +3,21 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import nanoid from "nanoid";
 
+//desc generate jwt token
+const generateToken = (user) => {
+  return jwt.sign(
+    {
+      id: user._id,
+      role: user.role,
+      status: user.status,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1d",
+    },
+  );
+};
+
 //@desc register a new user
 //@route POST /api/auth/register
 //@access Public
@@ -141,6 +156,7 @@ const updateUserProfile = async (req, res) => {
       email: updatedUser.email,
       role: updatedUser.role,
       message: "Profile updated successfully",
+      token: generateToken(updatedUser),
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

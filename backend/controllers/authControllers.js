@@ -1,7 +1,6 @@
 import User from "../model/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import nanoid from "nanoid";
 
 //desc generate jwt token
 const generateToken = (user) => {
@@ -25,12 +24,30 @@ const registerUser = async (req, res) => {
   try {
     const { name, email, password, role, adminCode } = req.body;
     console.log(req.body);
+    // Basic validation
+    if (!name?.trim() || !email?.trim() || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+    // Normalize email
+    const normalizedEmail = email.toLowerCase().trim();
+
+    //  Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(normalizedEmail)) {
+      return res.status(400).json({ message: "Invalid email format" });
+    }
+
+    if (password.length < 8) {
+      return res
+        .status(400)
+        .json({ message: "Password must be at least 8 characters" });
+    }
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: "User already exists" });
     }
     // hash the password
-    const userSalt = await bcrypt.genSalt(8);
+    const userSalt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, userSalt);
 
     let assignedRole = "citizen";
@@ -64,6 +81,7 @@ const registerUser = async (req, res) => {
       email: user.email,
       role: user.role,
       status: user.status,
+      token: generateToken(user),
       message:
         assignedRole === "standard-admin"
           ? "Registration submitted. Awaiting superadmin approval."
@@ -79,9 +97,17 @@ const registerUser = async (req, res) => {
 //@access Public
 const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
+    // validate inputs
+    if (!email?.trim() || !password?.trim()) {
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
+    }
 
-    const user = await User.findOne({ email });
+    email = email.toLowerCase().trim();
+
+    const user = await User.findOne({ email }).select("+password");
     if (!user) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
@@ -98,18 +124,14 @@ const loginUser = async (req, res) => {
         message: "Your account is pending approval by a super-admin.",
       });
     }
-    // generate JWT token
-    const token = jwt.sign(
-      { id: user._id, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" },
-    );
+
     res.json({
       _id: user._id,
       name: user.name,
       email: user.email,
+      // password: user.password,
       role: user.role,
-      token,
+      token: generateToken(user),
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -163,4 +185,7 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser, getUserProfile, updateUserProfile };
+
+
+
+export { registerUser, loginUser, getUserProfile, updateUserProfile, };

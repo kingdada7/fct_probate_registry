@@ -5,7 +5,9 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      trim: true,
     },
+
     email: {
       type: String,
       required: true,
@@ -22,7 +24,7 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["standard-admin", "citizen", "super-admin"],
+      enum: ["citizen", "standard-admin", "super-admin"],
       default: "citizen",
     },
 
@@ -35,14 +37,13 @@ const userSchema = new mongoose.Schema(
     resetPasswordToken: String,
     resetPasswordExpire: Date,
 
-    superAdminToken: {
-      type: String,
-      required: true,
-      uppercase: true,
-      required: function () {
-        return this.role === "super-admin";
-      },
-    },
+    // superAdminToken: {
+    //   type: String,
+    //   uppercase: true,
+    //   required: function () {
+    //     return this.role === "super-admin";
+    //   },
+    // },
   },
   { timestamps: true },
 );

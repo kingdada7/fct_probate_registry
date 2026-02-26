@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState } from "react";
 import {
   Mail,
   Key,
@@ -13,9 +13,85 @@ import {
 import { MdOutlineLockReset } from "react-icons/md";
 import { FaArrowRight } from "react-icons/fa";
 import { InfinitySpin } from "react-loader-spinner";
+import { validateEmail } from "../../../utils/helper.js";
+import { API_ENDPOINT } from "../../../utils/apiPaths.js";
+import axiosInstance from "../../../utils/axiosInstance";
+import { UserContext } from "../../../context/userContext.jsx";
 
-function CitizenLogin() {
+import { Link, useNavigate } from "react-router";
+
+
+function CitizenRegistration() {
   const [hidePassword, setHidePassword] = useState(true);
+
+  const [error, setError] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullname, setFullName] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const { updateUser } = useContext(UserContext);
+
+
+  const navigate = useNavigate();
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+
+    if (!fullname.trim()) {
+      setError("Please enter your full name");
+      return;
+    }
+
+    if (!email.trim()) {
+      setError("Please enter your email address");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    if (!password) {
+      setError("Please enter a password");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await axiosInstance.post(API_ENDPOINT.AUTH.REGISTER, {
+        email,
+        password,
+        name: fullname,
+      });
+
+      const { token, role } = response.data;
+
+      if (token) {
+        updateUser(response.data);
+
+        if (role === "citizen") {
+          navigate("/citizen/dashboard");
+        }
+      }
+    } catch (error) {
+      if (error.response?.data?.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("An error occurred during registration.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -31,6 +107,7 @@ function CitizenLogin() {
       </div>
     );
   }
+  //handle signup
 
   return (
     <div className="min-h-screen bg-[#f6f8f7] dark:bg-[#112117] flex flex-col ">
@@ -101,25 +178,35 @@ function CitizenLogin() {
                   </p>
                 </div>
               </div>
-              <form className="space-y-5">
+              <form onSubmit={handleSignup} className="space-y-5">
                 <div className="relative">
-                  <label className=" text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                  <label
+                    htmlFor="fullname"
+                    className=" text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2"
+                  >
                     Official Full Name
                   </label>
                   <User className="absolute left-4 top-10.5 w-5 h-5 text-[#4e9769]" />
 
                   <input
+                    value={fullname}
+                    onChange={(e) => setFullName(e.target.value)}
                     type="text"
                     placeholder="Enter your full Legal Name"
                     className=" w-full pl-11 pr-4 py-3 rounded-lg border border-[#d0e7d8] dark:border-[#2a4433] bg-[#f8fcf9] dark:bg-[#112117] text-[#0e1b13] dark:text-white placeholder:text-[#4e9769]/60 focus:ring-2 focus:ring-[#0b602a]/20 focus:border-[#0b602a] transition-all outline-none"
                   />
                 </div>
                 <div className="relative">
-                  <label className=" text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                  <label
+                    htmlFor="email"
+                    className=" text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2"
+                  >
                     Email Address
                   </label>
                   <Mail className="absolute left-4 top-11 w-5 h-5 text-[#4e9769]" />
                   <input
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     type="email"
                     placeholder="e.g. name@gmail.com"
                     className="  w-full pl-11 pr-4 py-3 rounded-lg border border-[#d0e7d8] dark:border-[#2a4433] bg-[#f8fcf9] dark:bg-[#112117] text-[#0e1b13] dark:text-white placeholder:text-[#4e9769]/60 focus:ring-2 focus:ring-[#0b602a]/20 focus:border-[#0b602a] transition-all outline-none"
@@ -136,6 +223,8 @@ function CitizenLogin() {
                   <div className="relative">
                     <LockKeyhole className="absolute left-4 top-4 w-5 h-5 text-[#4e9769]" />
                     <input
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       type={hidePassword ? "password" : "text"}
                       placeholder="Create a strong password "
                       className=" w-full pl-11 pr-4 py-3 rounded-lg border border-[#d0e7d8] dark:border-[#2a4433] bg-[#f8fcf9] dark:bg-[#112117] text-[#0e1b13] dark:text-white placeholder:text-[#4e9769]/60 focus:ring-2 focus:ring-[#0b602a]/20 focus:border-[#0b602a] transition-all outline-none"
@@ -168,6 +257,8 @@ function CitizenLogin() {
                     </label>
                     <MdOutlineLockReset className="w-5 h-5 absolute left-4 top-10.5 text-[#4e9769]" />
                     <input
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
                       type="password"
                       placeholder="Confirm your password"
                       className="w-full pl-11 pr-4 py-3 rounded-lg border border-[#d0e7d8] dark:border-[#2a4433] bg-[#f8fcf9] dark:bg-[#112117] text-[#0e1b13] dark:text-white placeholder:text-[#4e9769]/60 focus:ring-2 focus:ring-[#0b602a]/20 focus:border-[#0b602a] transition-all outline-none"
@@ -181,6 +272,7 @@ function CitizenLogin() {
                 >
                   Register Account <FaArrowRight className="w-5 h-5" />
                 </button>
+                {error && <p className="text-sm text-red-600">{error}</p>}
               </form>
 
               <div className="mt-6 text-center">
@@ -239,4 +331,4 @@ function CitizenLogin() {
   );
 }
 
-export default CitizenLogin;
+export default CitizenRegistration;

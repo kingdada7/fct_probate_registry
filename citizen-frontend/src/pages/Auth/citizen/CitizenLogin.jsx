@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext,useEffect, useState } from "react";
 import {
   Mail,
   Key,
@@ -10,9 +10,67 @@ import {
   Landmark,
 } from "lucide-react";
 import { InfinitySpin } from "react-loader-spinner";
+import { validateEmail } from "../../../utils/helper.js";
+import { API_ENDPOINT } from "../../../utils/apiPaths.js";
+import axiosInstance from "../../../utils/axiosInstance";
+import { UserContext } from "../../../context/userContext.jsx";
+
+import { Link, useNavigate } from "react-router";
 
 function CitizenLogin() {
   const [hidePassword, setHidePassword] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { updateUser } = useContext(UserContext);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    if (!email.trim()) {
+      setError("Please enter your email address");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    if (!password) {
+      setError("Please enter a password");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await axiosInstance.post(API_ENDPOINT.AUTH.LOGIN, {
+        email,
+        password,
+      });
+
+      const { token, role } = response.data;
+
+      if (token) {
+        updateUser(response.data);
+
+        if (role === "citizen") {
+          navigate("/citizen/dashboard");
+        }
+      }
+    } catch (error) {
+      if (error.response?.data?.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("An error occurred during login.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -100,13 +158,15 @@ function CitizenLogin() {
                   <LockKeyhole className="w-6 h-6 text-[#0b602a] text-3xl" />
                 </div>
               </div>
-              <form className="space-y-5">
+              <form onSubmit={handleLogin} className="space-y-5">
                 <div>
                   <label className=" text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
                     <Mail className="w-4 h-4" />
                     Email Address
                   </label>
                   <input
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     type="email"
                     placeholder="e.g. name@gmail.com"
                     className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm "
@@ -122,6 +182,8 @@ function CitizenLogin() {
 
                   <div className="relative">
                     <input
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       type={hidePassword ? "password" : "text"}
                       placeholder="Enter your password "
                       className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm"
@@ -152,6 +214,7 @@ function CitizenLogin() {
                 >
                   <LogIn className="w-5 h-5" /> Log In
                 </button>
+                {error && <p className="text-sm text-red-600">{error}</p>}
               </form>
               <div className="mt-6 text-center">
                 <p className="text-sm text-gray-700">

@@ -125,13 +125,22 @@ const loginUser = async (req, res) => {
       });
     }
 
+    const token = generateToken(user);
+
+    //  Send JWT as httpOnly cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    });
+
     res.json({
       _id: user._id,
       name: user.name,
       email: user.email,
       // password: user.password,
       role: user.role,
-      token: generateToken(user),
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -185,7 +194,4 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
-
-
-
-export { registerUser, loginUser, getUserProfile, updateUserProfile, };
+export { registerUser, loginUser, getUserProfile, updateUserProfile };

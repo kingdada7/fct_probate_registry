@@ -10,9 +10,26 @@ import { PiUserCheck } from "react-icons/pi";
 import { MdAlternateEmail } from "react-icons/md";
 import { InfinitySpin } from "react-loader-spinner";
 import { useEffect, useState } from "react";
+
+import { API_ENDPOINT } from "../../utils/apiPathsAdmin.js";
+import { validateEmail } from "../../utils/helperAdmin.js";
+import axiosInstance from "../../utils/axiosInstanceAdmin.js";
+import { UserContext } from "../../context/userContextAdmin.jsx";
+import { Link, useNavigate } from "react-router";
 const SuperAdminRegister = () => {
   const [hidePassword, setHidePassword] = useState(true);
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [superAdminCode, setSuperAdminCode] = useState("");
+
+  const [error, setError] = useState("");
+  const { updateUser } = React.useContext(UserContext);
+  const navigate = useNavigate();
+
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const timmer = setTimeout(() => {
       setLoading(false);
@@ -26,6 +43,70 @@ const SuperAdminRegister = () => {
       </div>
     );
   }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Handle form submission logic here
+
+    if (!fullname.trim()) {
+      setError("Please enter your full name");
+      return;
+    }
+
+    if (!email.trim()) {
+      setError("Please enter your email address");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    if (!password) {
+      setError("Please enter a password");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    if (!superAdminCode) {
+      setError("Please enter the authorized invite code");
+      return;
+    }
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await axiosInstance.post(API_ENDPOINT.AUTH.REGISTER, {
+        email,
+        password,
+        name: fullname,
+        adminCode: superAdminCode,
+      });
+
+      const { token, role } = response.data;
+
+      if (token) {
+        updateUser(response.data);
+
+        if (role === "super-admin") {
+          navigate("/superadmin/dashboard");
+        }
+      }
+    } catch (error) {
+      if (error.response?.data?.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("An error occurred during registration.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
@@ -70,7 +151,7 @@ const SuperAdminRegister = () => {
                 ministry-issued authorization code to establish your
                 administrative profile
               </p>
-              <form className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label className="block text-xs font-bold text-gray-900 tracking-wider mb-3">
                     FULL LEGAL NAME
@@ -78,6 +159,8 @@ const SuperAdminRegister = () => {
                   <div className="relative">
                     <FaUser className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
                     <input
+                      value={fullname}
+                      onChange={(e) => setFullname(e.target.value)}
                       type="text"
                       placeholder="Enter as it appears on official ID"
                       className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:bg-white text-sm text-gray-700 placeholder-gray-500"
@@ -93,6 +176,8 @@ const SuperAdminRegister = () => {
                     <div className="relative">
                       <MdAlternateEmail className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
                       <input
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         type="email"
                         placeholder="username@fct.gov.ng"
                         className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:bg-white text-sm text-gray-700 placeholder-gray-500"
@@ -125,6 +210,37 @@ const SuperAdminRegister = () => {
                     <CiLock className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
                     <div className="relative">
                       <input
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        type={hidePassword ? "password" : "text"}
+                        placeholder="Enter your password "
+                        className="w-full px-11 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm"
+                      />
+                      {hidePassword ? (
+                        <EyeOff
+                          onClick={() => setHidePassword(false)}
+                          className="absolute right-4 top-3.5 w-5 h-5 text-gray-500 cursor-pointer"
+                        />
+                      ) : (
+                        <Eye
+                          onClick={() => setHidePassword(true)}
+                          className="absolute right-4 top-3.5 w-5 h-5 text-gray-500 cursor-pointer"
+                        />
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-gray-900 tracking-wider mb-3">
+                    VERIFY PASSWORD
+                  </label>
+                  <div className="relative">
+                    <CiLock className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+                    <div className="relative">
+                      <input
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                         type={hidePassword ? "password" : "text"}
                         placeholder="Enter your password "
                         className="w-full px-11 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm"
@@ -150,6 +266,7 @@ const SuperAdminRegister = () => {
                       <label className="text-xs font-bold text-gray-900 tracking-wider">
                         AUTHORIZED INVITE CODE
                       </label>
+
                       <IoAlertCircleSharp className="text-red-600 w-4 h-4" />
                     </div>
                     <span className="text-xs font-bold text-[#1a5c3a]">
@@ -158,6 +275,8 @@ const SuperAdminRegister = () => {
                   </div>
                   <input
                     type="text"
+                    value={superAdminCode}
+                    onChange={(e) => setSuperAdminCode(e.target.value)}
                     placeholder="Enter Secure Invite Code"
                     className="w-full px-4 py-4 border-2 border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-[#1a5c3a] text-sm text-gray-700 placeholder-gray-500 text-center tracking-wider"
                   />
@@ -181,6 +300,7 @@ const SuperAdminRegister = () => {
                     </a>
                   </p>
                 </div>
+                {error && <p className="text-sm text-red-600">{error}</p>}
               </form>
               <div className="mt-8 pt-6 border-t border-gray-200 text-center space-y-2">
                 <div className="flex items-center justify-center gap-4 text-xs text-gray-600">

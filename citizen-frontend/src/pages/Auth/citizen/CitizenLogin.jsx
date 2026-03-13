@@ -1,4 +1,4 @@
-import React, {useContext,useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Mail,
   Key,
@@ -52,14 +52,13 @@ function CitizenLogin() {
         password,
       });
 
-      const { token, role } = response.data;
+      const { role } = response.data;
 
-      if (token) {
-        updateUser(response.data);
+      // Update context with user info
+      updateUser(response.data);
 
-        if (role === "citizen") {
-          navigate("/citizen/dashboard");
-        }
+      if (role === "citizen") {
+        navigate("/citizen/dashboard");
       }
     } catch (error) {
       if (error.response?.data?.message) {

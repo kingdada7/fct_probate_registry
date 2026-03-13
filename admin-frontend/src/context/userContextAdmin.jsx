@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 
-import { API_ENDPOINT } from "../../../admin-frontend/src/utils/apiPathsAdmin.js";
-import axiosInstance from "../../../admin-frontend/src/utils/axiosInstanceAdmin.js";
+import { API_ENDPOINT } from "../utils/apiPathsAdmin.js";
+import axiosInstance from "../utils/axiosInstanceAdmin.js";
 
 export const UserContext = createContext();
 

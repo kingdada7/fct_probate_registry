@@ -30,7 +30,11 @@ import {
   FileChartColumnIcon,
   FileIcon,
   CommandIcon,
+  NotebookIcon,
+  NotebookPen,
+  Shield,
 } from "lucide-react";
+import { IoDocument, IoDocumentText } from "react-icons/io5";
 
 const data = {
   user: {
@@ -41,32 +45,32 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "/superadmin/dashboard",
+      url: "#",
       path: "/superadmin/dashboard",
       icon: <LayoutDashboardIcon />,
     },
     {
-      title: "User Management",
+      title: "Application Management",
       url: "#",
-      path: "/superadmin/usermanagement",
-      icon: <ListIcon />,
+      path: "/superadmin/applicationmanagement",
+      icon: <IoDocumentText />,
     },
     {
       title: "Admin Management",
       url: "#",
       path: "/superadmin/management",
-      icon: <ChartBarIcon />,
+      icon: <Shield />,
     },
-    {
-      title: "Projects",
-      url: "#",
-      icon: <FolderIcon />,
-    },
-    {
-      title: "Team",
-      url: "#",
-      icon: <UsersIcon />,
-    },
+    // {
+    //   title: "Projects",
+    //   url: "#",
+    //   icon: <FolderIcon />,
+    // },
+    // {
+    //   title: "Team",
+    //   url: "#",
+    //   icon: <UsersIcon />,
+    // },
   ],
   // navClouds: [
   //   {

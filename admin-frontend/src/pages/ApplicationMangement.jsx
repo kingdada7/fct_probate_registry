@@ -17,6 +17,8 @@ import {
   ChevronRight as ChevronRightIcon,
   CheckCheckIcon,
   CircleX,
+  FolderArchive,
+  LucideClipboardClock,
 } from "lucide-react";
 import SuperAdminLayout from "../layouts/SuperAdminLayout";
 import {
@@ -30,43 +32,17 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { FaCheckCircle } from "react-icons/fa";
+import { IoFolderOpen } from "react-icons/io5";
+import { BsPatchCheckFill } from "react-icons/bs";
+import { PiWarningOctagonFill } from "react-icons/pi";
+
 // import { useState } from 'react';
 
-function SuperAdminManagement() {
+function ApplicationManagement() {
   // const [currentPage, setCurrentPage] = useState(1);
 
-  const adminStaff = [
-    {
-      initials: "CN",
-      name: "Chidi Nwachukwu",
-      email: "c.nwachukwu@fct.gov.ng",
-      role: "ADMIN",
-      department: "Registry Operations",
-      lastActivity: "10 mins ago",
-      status: "ACTIVE",
-    },
-    {
-      initials: "OA",
-      name: "Olawale Adeyemi",
-      email: "o.adeyemi@fct.gov.ng",
-      roles: ["SUPER", "ADMIN"],
-      department: "Exec. Oversight",
-      lastActivity: "Today, 08:12 AM",
-      status: "ACTIVE",
-    },
-    {
-      initials: "MM",
-      name: "Mary Musa",
-      email: "m.musa@fct.gov.ng",
-      role: "ADMIN",
-      department: "Audit & Compliance",
-      lastActivity: "Yesterday, 16:45",
-      status: "INACTIVE",
-    },
-  ];
-
   return (
-    <SuperAdminLayout activeMenu="Dashboard">
+    <SuperAdminLayout activeMenu="Application Management">
       <div className="min-h-screen bg-gray-100 flex">
         {/* <aside className="w-64 bg-[#1a5c3a] text-white flex flex-col">
         <div className="p-6 border-b border-green-700">
@@ -167,10 +143,10 @@ function SuperAdminManagement() {
               <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-xs font-bold text-gray-600 tracking-wide">
-                    TOTAL ADMIN STAFF
+                    Total Applications
                   </span>
-                  <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <Users className="w-5 h-5 text-gray-400" />
+                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <IoFolderOpen className="w-5 h-5 text-blue-400" />
                   </div>
                 </div>
                 <div className="text-4xl font-black text-gray-900 mb-2">24</div>
@@ -180,10 +156,10 @@ function SuperAdminManagement() {
               <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-xs font-bold text-gray-600 tracking-wide">
-                    PENDING APPROVALS
+                    Pending Approvals
                   </span>
                   <div className="w-10 h-10 bg-yellow-50 rounded-lg flex items-center justify-center">
-                    <Clock className="w-5 h-5 text-yellow-600" />
+                    <LucideClipboardClock className="w-5 h-5 text-yellow-600" />
                   </div>
                 </div>
                 <div className="text-4xl font-black text-red-600 mb-2">03</div>
@@ -195,36 +171,32 @@ function SuperAdminManagement() {
               <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-xs font-bold text-gray-600 tracking-wide">
-                    ACTIVE SESSIONS
+                    Approved Probate
                   </span>
-                  <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
-                    <Radio className="w-5 h-5 text-blue-500" />
+                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                    <BsPatchCheckFill className="w-5 h-5 text-green-500" />
                   </div>
                 </div>
                 <div className="text-4xl font-black text-gray-900 mb-2">08</div>
-                <p className="text-xs text-gray-600 font-medium">
-                  Currently online
-                </p>
+                <p className="text-xs text-gray-600 font-medium"></p>
               </div>
 
               <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-xs font-bold text-gray-600 tracking-wide">
-                    SYSTEM ALERTS
+                    Rejected Applications
                   </span>
-                  <div className="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center">
-                    <Folder className="w-5 h-5 text-purple-500" />
+                  <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                    <PiWarningOctagonFill className="w-5 h-5 text-red-500" />
                   </div>
                 </div>
                 <div className="text-4xl font-black text-gray-900 mb-2">12</div>
-                <p className="text-xs text-gray-600 font-medium">
-                  Pending review
-                </p>
+                <p className="text-xs text-gray-600 font-medium"></p>
               </div>
             </div>
 
             <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-              <div className="px-8 py-6 border-b border-gray-200 flex items-center justify-between">
+              {/* <div className="px-8 py-6 border-b border-gray-200 flex items-center justify-between">
                 <div>
                   <h2 className="text-xl font-black text-gray-900">
                     Administrative Personnel Overview
@@ -242,99 +214,51 @@ function SuperAdminManagement() {
                     Add New Admin
                   </button>
                 </div>
-              </div>
+              </div> */}
 
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-gray-200 bg-gray-50">
                       <th className="px-8 py-4 text-left text-xs font-bold text-gray-600 tracking-wide">
-                        NAME & EMAIL
+                        ACTIVITY DESCRIPTION
                       </th>
                       <th className="px-8 py-4 text-left text-xs font-bold text-gray-600 tracking-wide">
-                        CURRENT ROLE
+                        FILE NUMBER
                       </th>
                       <th className="px-8 py-4 text-left text-xs font-bold text-gray-600 tracking-wide">
-                        DEPARTMENT
+                        ADMIN OFFICER
                       </th>
                       <th className="px-8 py-4 text-left text-xs font-bold text-gray-600 tracking-wide">
-                        LAST ACTIVITY
+                        TIMESTAMP
                       </th>
                       <th className="px-8 py-4 text-left text-xs font-bold text-gray-600 tracking-wide">
                         STATUS
                       </th>
-                      <th className="px-8 py-4 text-left text-xs font-bold text-gray-600 tracking-wide">
-                        ACTIONS
-                      </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {adminStaff.map((staff, idx) => (
-                      <tr
-                        key={idx}
-                        className="border-b border-gray-200 hover:bg-gray-50"
-                      >
-                        <td className="px-8 py-5">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-gradient-to-br from-green-100 to-green-50 rounded-lg flex items-center justify-center font-bold text-sm text-gray-700">
-                              {staff.initials}
-                            </div>
-                            <div>
-                              <p className="font-bold text-sm text-gray-900">
-                                {staff.name}
-                              </p>
-                              <p className="text-xs text-gray-500">
-                                {staff.email}
-                              </p>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-8 py-5">
-                          {staff.role ? (
-                            <span className="inline-block bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded">
-                              {staff.role}
-                            </span>
-                          ) : (
-                            <div className="flex gap-1">
-                              <span className="inline-block bg-yellow-100 text-yellow-700 text-xs font-bold px-2 py-1 rounded">
-                                SUPER
-                              </span>
-                              <span className="inline-block bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded">
-                                ADMIN
-                              </span>
-                            </div>
-                          )}
-                        </td>
-                        <td className="px-8 py-5 text-sm text-gray-700">
-                          {staff.department}
-                        </td>
-                        <td className="px-8 py-5 text-sm text-gray-700">
-                          {staff.lastActivity}
-                        </td>
-                        <td className="px-8 py-5">
-                          <span
-                            className={`inline-flex items-center gap-1.5 text-xs font-bold px-2 py-1 rounded ${
-                              staff.status === "ACTIVE"
-                                ? "bg-green-100 text-green-700"
-                                : "bg-gray-100 text-gray-600"
-                            }`}
-                          >
-                            <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
-                            {staff.status}
+                    <tr>
+                      <td className="px-4 py-4">Probate application created</td>
+                      <td className="px-8 py-5">
+                        <div className="flex gap-1">
+                          <span className="inline-block bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded">
+                            1234567890
                           </span>
-                        </td>
-                        <td className="px-8 py-5">
-                          <div className="flex items-center gap-2">
-                            <button className="p-1.5 hover:bg-gray-200 rounded">
-                              <Share2 className="w-4 h-4 text-gray-600" />
-                            </button>
-                            <button className="p-1.5 hover:bg-gray-200 rounded">
-                              <Eye className="w-4 h-4 text-gray-600" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4 text-sm text-gray-700">
+                        HON. JUSTICE A. BELLO
+                      </td>
+                      <td className="px-4 py-4 text-sm text-gray-700">
+                        24 Oct 2023, 14:30
+                      </td>
+                      <td className="px-8 py-5">
+                        <span className="inline-block bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded">
+                          Approved
+                        </span>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -404,7 +328,7 @@ function SuperAdminManagement() {
 
                   <TableCell className="">
                     <div className="flex items-center justify-end gap-2">
-                      <button className="p-1.5 hover:bg-gray-200 rounded " >
+                      <button className="p-1.5 hover:bg-gray-200 rounded ">
                         <FaCheckCircle className="w-4 h-4 text-green-500" />
                       </button>
                       <button className="p-1.5 hover:bg-gray-200 rounded">
@@ -490,4 +414,4 @@ function SuperAdminManagement() {
   );
 }
 
-export default SuperAdminManagement;
+export default ApplicationManagement;

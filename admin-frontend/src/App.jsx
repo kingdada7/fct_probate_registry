@@ -8,7 +8,8 @@ import PortalAccess from "./pages/PortalAccess";
 import UserProvider from "./context/userContextAdmin";
 import SuperAdminDashboard from "./pages/SuperAdminDashboard";
 import SuperAdminManagement from "./pages/SuperAdminManagement";
-import UserManagement from "./pages/UserMangement";
+import ApplicationManagement from "./pages/ApplicationMangement";
+
 
 const App = () => {
   return (
@@ -40,8 +41,8 @@ const App = () => {
               element={<SuperAdminManagement />}
             />
             <Route
-              path="/superadmin/usermanagement"
-              element={<UserManagement />}
+              path="/superadmin/applicationmanagement"
+              element={<ApplicationManagement />}
             />
           </Route>
 

@@ -8,6 +8,9 @@ import { BsPatchCheckFill } from "react-icons/bs";
 import { PiFolderSimpleUserDuotone } from "react-icons/pi";
 import { BsQuestionSquare } from "react-icons/bs";
 import { BsQuestionSquareFill } from "react-icons/bs";
+import CreateApplication from "./CreateApplication";
+import { Link } from "react-router";
+
 
 function CitizenDashboard() {
   return (
@@ -45,12 +48,14 @@ function CitizenDashboard() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 ">
+           <Link to="/citizen/createapplication">
             <button className="bg-[#0b602a] text-white px-4 py-2 rounded-md font-medium hover:bg-green-600  shadow-sm transition flex items-center gap-2">
               <span>
                 <FaPlusCircle className="w-5 h-5 mr-2" />
               </span>{" "}
               New Application
             </button>
+            </Link>
 
             <button className="bg-gray-100 text-black px-4 py-2 rounded-md font-medium hover:bg-gray-200 border shadow-sm transition-colors flex items-center gap-2">
               <span>

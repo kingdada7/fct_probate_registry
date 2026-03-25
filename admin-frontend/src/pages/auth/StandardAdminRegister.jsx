@@ -1,13 +1,29 @@
 import React from "react";
-import { User, Info, Eye } from "lucide-react";
+import { User, Info, Eye, EyeOff } from "lucide-react";
 import { IoShieldCheckmark } from "react-icons/io5";
 import { InfinitySpin } from "react-loader-spinner";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
+
+import { API_ENDPOINT } from "../../utils/apiPathsAdmin.js";
+import { validateEmail } from "../../utils/helperAdmin.js";
+import axiosInstance from "../../utils/axiosInstanceAdmin.js";
+import { UserContext } from "../../context/userContextAdmin.jsx";
 
 const StandardAdminRegister = () => {
   const [loading, setLoading] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
+
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [hideConfirmPassword, setHideConfirmPassword] = useState(false);
   const [division, setDivision] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [staffId, setStaffId] = useState("");
+  const [password, setPassword] = useState("");
+  const [hidePassword, setHidePassword] = useState(false);
+  const [error, setError] = useState("");
+  // const { updateUser } = React.useContext(UserContext);
+  const navigate = useNavigate();
   useEffect(() => {
     const timmer = setTimeout(() => {
       setLoading(false);
@@ -21,6 +37,59 @@ const StandardAdminRegister = () => {
       </div>
     );
   }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!fullname.trim()) return setError("Please enter your full name");
+    if (!email.trim()) return setError("Please enter your email address");
+    if (!validateEmail(email))
+      return setError("Please enter a valid email address");
+    if (!password) return setError("Please enter a password");
+    if (password !== confirmPassword) return setError("Passwords do not match");
+    if (!division) return setError("Please select your department/division");
+    if (password.length < 8)
+      return setError("Password must be at least 8 characters long");
+    if (!staffId.trim()) return setError("Please enter your staff ID");
+
+    try {
+      setError("");
+
+      // 1️ Register user
+      const response = await axiosInstance.post(API_ENDPOINT.AUTH.REGISTER, {
+        email,
+        password,
+        name: fullname,
+        role: "standard-admin",
+        staffId,
+        division
+      });
+
+      const { token } = response.data;
+
+      if (!token) throw new Error("Registration failed");
+
+      // 2️Send admin request AFTER success
+      await axiosInstance.post(
+        "/api/admin/request",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      alert("Request submitted. Await approval.");
+      navigate("/adminlogin");
+    } catch (error) {
+      setError(
+        error.response?.data?.message ||
+          error.message ||
+          "Something went wrong",
+      );
+    }
+  };
   return (
     <div>
       <main className="flex-1 flex items-center justify-center px-6 py-12 bg-white">
@@ -64,7 +133,7 @@ const StandardAdminRegister = () => {
               </p>
             </div>
             <div className="p-8 space-y-6">
-              <form className="space-y-4" action="">
+              <form onSubmit={handleSubmit} className="space-y-4" action="">
                 {" "}
                 <div className="grid grid-cols-2 gap-6">
                   <div>
@@ -73,6 +142,8 @@ const StandardAdminRegister = () => {
                     </label>
                     <input
                       type="text"
+                      value={fullname}
+                      onChange={(e) => setFullname(e.target.value)}
                       placeholder="Enter full legal name"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-500"
                     />
@@ -84,6 +155,8 @@ const StandardAdminRegister = () => {
                     </label>
                     <input
                       type="text"
+                      value={staffId}
+                      onChange={(e) => setStaffId(e.target.value)}
                       placeholder="FCT/CRT/XXXX"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-500"
                     />
@@ -96,6 +169,8 @@ const StandardAdminRegister = () => {
                     </label>
                     <input
                       type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       placeholder="official@fctcourt.gov.ng"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-500"
                     />
@@ -119,23 +194,55 @@ const StandardAdminRegister = () => {
                     </select>
                   </div>
                 </div>
+                {/* set password */}
                 <div>
                   <label className="block text-sm font-bold text-gray-900 mb-2">
                     Account Password
                   </label>
                   <div className="relative">
                     <input
-                      type={showPassword ? "text" : "password"}
+                      type={hidePassword ? "password" : "text"}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••••"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm text-gray-700"
                     />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-4 top-3.5 text-[#1a5c3a] hover:text-[#154d2f]"
-                    >
-                      <Eye className="w-5 h-5" />
-                    </button>
+                    {hidePassword ? (
+                      <EyeOff
+                        onClick={() => setHidePassword(false)}
+                        className="absolute right-4 top-3.5 w-5 h-5 text-gray-500 cursor-pointer"
+                      />
+                    ) : (
+                      <Eye
+                        onClick={() => setHidePassword(true)}
+                        className="absolute right-4 top-3.5 w-5 h-5 text-gray-500 cursor-pointer"
+                      />
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-gray-900 mb-2">
+                    Confirm Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={hideConfirmPassword ? "password" : "text"}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="••••••••••"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm text-gray-700"
+                    />
+                    {hideConfirmPassword ? (
+                      <EyeOff
+                        onClick={() => setHideConfirmPassword(false)}
+                        className="absolute right-4 top-3.5 w-5 h-5 text-gray-500 cursor-pointer"
+                      />
+                    ) : (
+                      <Eye
+                        onClick={() => setHideConfirmPassword(true)}
+                        className="absolute right-4 top-3.5 w-5 h-5 text-gray-500 cursor-pointer"
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="bg-gray-50 border-l-4 border-[#1a5c3a] p-4 rounded">
@@ -171,6 +278,7 @@ const StandardAdminRegister = () => {
                     </a>
                   </p>
                 </div>
+                {error && <p className="text-sm text-red-600">{error}</p>}
               </form>
             </div>
           </div>

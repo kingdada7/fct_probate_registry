@@ -10,12 +10,12 @@ import SuperAdminDashboard from "./pages/SuperAdminDashboard";
 import SuperAdminManagement from "./pages/SuperAdminManagement";
 import ApplicationManagement from "./pages/ApplicationMangement";
 
-
 const App = () => {
   return (
     <div>
       <UserProvider>
         <Routes>
+          <Route path="/unifiedadminlogin" element={<UnifiedAdminLogin />} />
           <Route
             path="/adminlogin"
             element={<UnifiedAdminLogin tier="standard" />}

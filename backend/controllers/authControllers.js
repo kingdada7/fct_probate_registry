@@ -22,7 +22,8 @@ const generateToken = (user) => {
 //@access Public
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password, role, adminCode } = req.body;
+    const { name, email, password, role, adminCode, staffId, division } =
+      req.body;
     console.log(req.body);
     // Basic validation
     if (!name?.trim() || !email?.trim() || !password) {
@@ -35,6 +36,12 @@ const registerUser = async (req, res) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(normalizedEmail)) {
       return res.status(400).json({ message: "Invalid email format" });
+    }
+
+    if (!division || !staffId) {
+      return res.status(400).json({
+        message: "Division and Staff ID are required",
+      });
     }
 
     if (password.length < 8) {
@@ -74,6 +81,8 @@ const registerUser = async (req, res) => {
       password: hashedPassword,
       role: assignedRole,
       status,
+      staffId,
+      division,
     });
     res.status(201).json({
       _id: user._id,
@@ -81,6 +90,8 @@ const registerUser = async (req, res) => {
       email: user.email,
       role: user.role,
       status: user.status,
+      staffId: user.staffId,
+      division: user.division,
       token: generateToken(user),
       message:
         assignedRole === "standard-admin"
@@ -124,7 +135,10 @@ const loginUser = async (req, res) => {
         message: "Your account is pending approval by a super-admin.",
       });
     }
-
+    //  UPDATE LAST ACTIVE HERE
+    await User.findByIdAndUpdate(user._id, {
+      lastActive: new Date(),
+    });
     const token = generateToken(user);
 
     //  Send JWT as httpOnly cookie

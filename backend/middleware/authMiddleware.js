@@ -29,6 +29,11 @@ const protect = async (req, res, next) => {
       });
     }
 
+    //  Update last activity
+    await User.findByIdAndUpdate(user._id, {
+      lastActive: new Date(),
+    });
+
     // Block unapproved standard admins
     if (user.role === "standard-admin" && user.status !== "approved") {
       return res.status(403).json({

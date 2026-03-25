@@ -6,6 +6,7 @@ import CitizenRegistration from "./pages/Auth/citizen/CitizenRegistration";
 import PrivateRoute from "./routes/PrivateRoute";
 import UserProvider, { UserContext } from "./context/userContext";
 import CitizenDashboard from "./pages/CitizenDashboard";
+import CreateApplication from "./pages/CreateApplication";
 
 
 const App = () => {
@@ -25,6 +26,10 @@ const App = () => {
             <Route
               path="/citizen/dashboard"
               element={<CitizenDashboard />}
+            />
+            <Route
+              path="/citizen/createapplication"
+              element={<CreateApplication />}
             />
           </Route>
         </Routes>

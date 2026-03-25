@@ -21,6 +21,7 @@ const SuperAdminRegister = () => {
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
   const [confirmPassword, setConfirmPassword] = useState("");
   const [superAdminCode, setSuperAdminCode] = useState("");
 
@@ -239,20 +240,20 @@ const SuperAdminRegister = () => {
                     <CiLock className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
                     <div className="relative">
                       <input
-                        value={confirmPassword}
+                        value={hideConfirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        type={hidePassword ? "password" : "text"}
+                        type={hideConfirmPassword ? "password" : "text"}
                         placeholder="Enter your password "
                         className="w-full px-11 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm"
                       />
-                      {hidePassword ? (
+                      {hideConfirmPassword ? (
                         <EyeOff
                           onClick={() => setHidePassword(false)}
                           className="absolute right-4 top-3.5 w-5 h-5 text-gray-500 cursor-pointer"
                         />
                       ) : (
                         <Eye
-                          onClick={() => setHidePassword(true)}
+                          onClick={() => setHideConfirmPassword(true)}
                           className="absolute right-4 top-3.5 w-5 h-5 text-gray-500 cursor-pointer"
                         />
                       )}

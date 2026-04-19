@@ -7,6 +7,9 @@ import PrivateRoute from "./routes/PrivateRoute";
 import UserProvider, { UserContext } from "./context/userContext";
 import CitizenDashboard from "./pages/CitizenDashboard";
 import CreateApplication from "./pages/CreateApplication";
+import DeceasedInformation from "./pages/DeceasedInformation";
+import ApplicationType from "./pages/ApplicationType";
+import DocumentsUpload from "./pages/DocumentsUpload";
 
 
 const App = () => {
@@ -23,13 +26,22 @@ const App = () => {
 
           {/* citizen routes */}
           <Route element={<PrivateRoute allowedRoles={["citizen"]} />}>
-            <Route
-              path="/citizen/dashboard"
-              element={<CitizenDashboard />}
-            />
+            <Route path="/citizen/dashboard" element={<CitizenDashboard />} />
             <Route
               path="/citizen/createapplication"
               element={<CreateApplication />}
+            />
+            <Route
+              path="/citizen/deceasedinformation"
+              element={<DeceasedInformation />}
+            />
+            <Route
+              path="/citizen/applicationtype"
+              element={<ApplicationType />}
+            />
+            <Route
+              path="/citizen/documentsupload"
+              element={<DocumentsUpload />}
             />
           </Route>
         </Routes>

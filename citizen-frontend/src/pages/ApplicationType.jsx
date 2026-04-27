@@ -273,6 +273,7 @@ function ApplicationType() {
                     <tr className="border-b border-gray-200">
                       <th className="text-left px-4 py-3 text-xs font-bold text-[#00b757] tracking-wide">
                         CATEGORY
+                        
                       </th>
                       <th className="text-left px-4 py-3 text-xs font-bold text-[#00b757] tracking-wide">
                         DESCRIPTION / PARTICULARS

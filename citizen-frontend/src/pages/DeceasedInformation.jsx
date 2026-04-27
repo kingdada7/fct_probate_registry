@@ -7,6 +7,8 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { useState } from "react";
+import ProfilePhotoUpload from "../components/ProfilePhotoUpload";
+
 
 function DeceasedInformation() {
   const [fullName, setFullName] = useState("");
@@ -176,6 +178,7 @@ function DeceasedInformation() {
                   Personal Details
                 </h2>
               </div> */}
+              
 
               <div className="space-y-6">
                 <div className="grid grid-cols-2 gap-6">
@@ -670,30 +673,250 @@ function DeceasedInformation() {
                 </div>
 
                 <div>
+                  <label className="block text-sm font-bold text-gray-900 mb-2">
+                    Insurance Policies
+                  </label>
+                  <input
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="List any insurance policies (e.g. life insurance, health insurance) held by the deceased that may be relevant to the probate application. Include the name of the insurance company and policy number if available. If there are no insurance policies, please write 'None'."
+                    className="w-full px-4 py-8 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-gray-900 mb-2">
+                    Share in Company (if any)
+                  </label>
+                  <input
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="List any shares in companies or businesses owned by the deceased that may be relevant to the probate application. Include the name of the company, type of business, and percentage of ownership if available. If there are no shares in companies, please write 'None'."
+                    className="w-full px-4 py-8 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-400"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-6 mt-8">
+                  <div>
                     <label className="block text-sm font-bold text-gray-900 mb-2">
-                      Insurance Policies
+                      Pension Manager
                     </label>
                     <input
                       type="text"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      placeholder="List any insurance policies (e.g. life insurance, health insurance) held by the deceased that may be relevant to the probate application. Include the name of the insurance company and policy number if available. If there are no insurance policies, please write 'None'."
+                      placeholder="Name of the Pension Manager"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-bold text-gray-900 mb-2">
+                      Pension Account Number
+                    </label>
+                    <input
+                      type="text"
+                      // value={fullName}
+                      // onChange={(e) => setFullName(e.target.value)}
+                      placeholder="Pension Account Number"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-400"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-gray-900 mb-2">
+                    Landed Property/IES (if any)
+                  </label>
+                  <input
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="Enter the name of the property/IES"
+                    className="w-full px-4 py-8 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-gray-900 mb-2">
+                    Address of the property/IES (if any)
+                  </label>
+                  <input
+                    type="text"
+                    value={fullName}
+                    placeholder="Enter the address of the property/IES"
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="w-full px-4 py-8 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-gray-900 mb-2">
+                    Rent per annum (if the property is rented out)
+                  </label>
+                  <input
+                    type="text"
+                    value={fullName}
+                    placeholder="Enter the annual rent amount"
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="w-full px-4 py-8 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-gray-900 mb-2">
+                    Name of Tenant (if the property is rented out)
+                  </label>
+                  <input
+                    type="text"
+                    value={fullName}
+                    placeholder="Enter the name of the tenant"
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="w-full px-4 py-8 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-400"
+                  />
+                </div>
+                <div className="border-t border-gray-200 pt-6 ">
+                  <div className="flex items-center gap-3 mb-6">
+                    <FileText className="w-6 h-6 text-[#1a5c3a]" />
+                    <h3 className="text-lg font-black text-gray-900">
+                      Details of Sureties
+                    </h3>
+                  </div>
+                  <div className="text-[#1a5c3a] font-bold text-3xl mb-2 ">A</div>
+                  <div className="mb-8">
+                    <label className="block text-sm font-bold text-gray-900 mb-2">
+                      Name,Phone Number and Address of the Sureties
+                    </label>
+                    <input
+                      type="text"
+                      value={fullName}
+                      placeholder="Enter the name, phone number and address of the sureties"
+                      onChange={(e) => setFullName(e.target.value)}
                       className="w-full px-4 py-8 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-400"
                     />
                   </div>
 
-                  <div>
+                  <div className="mb-8">
                     <label className="block text-sm font-bold text-gray-900 mb-2">
-                    Share in Company (if any)
+                      Occupation of surety
                     </label>
                     <input
                       type="text"
                       value={fullName}
+                      placeholder="Enter the occupation of the surety"
                       onChange={(e) => setFullName(e.target.value)}
-                      placeholder="List any shares in companies or businesses owned by the deceased that may be relevant to the probate application. Include the name of the company, type of business, and percentage of ownership if available. If there are no shares in companies, please write 'None'."
                       className="w-full px-4 py-8 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-400"
                     />
                   </div>
+
+                  <div className="mb-8">
+                    <label className="block text-sm font-bold text-gray-900 mb-2">
+                      Name and Account Number of the Bank where the surety has
+                      an account
+                    </label>
+                    <input
+                      type="text"
+                      value={fullName}
+                      placeholder="Enter the name and account number of the bank"
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="w-full px-4 py-8 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-400"
+                    />
+                  </div>
+
+                  <div className="mb-8">
+                    <label className="block text-sm font-bold text-gray-900 mb-2">
+                      Value of Real property
+                    </label>
+                    <input
+                      type="text"
+                      value={fullName}
+                      placeholder=" Enter the value of the real property "
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="w-full px-4 py-8 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-400"
+                    />
+                  </div>
+
+                  <div className="mb-8">
+                    <label className="block text-sm font-bold text-gray-900 mb-2">
+                      Salary/Income per annum
+                    </label>
+                    <input
+                      type="text"
+                      value={fullName}
+                      placeholder=" Enter the salary/income per annum of the surety"
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="w-full px-4 py-8 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-400"
+                    />
+                  </div>
+
+
+                  <div className="text-[#1a5c3a] font-bold text-3xl mb-2 ">B</div>
+                  <div className="mb-8">
+                    <label className="block text-sm font-bold text-gray-900 mb-2">
+                      Name,Phone Number and Address of the Sureties
+                    </label>
+                    <input
+                      type="text"
+                      value={fullName}
+                      placeholder="Enter the name, phone number and address of the sureties"
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="w-full px-4 py-8 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-400"
+                    />
+                  </div>
+
+                  <div className="mb-8">
+                    <label className="block text-sm font-bold text-gray-900 mb-2">
+                      Occupation of surety
+                    </label>
+                    <input
+                      type="text"
+                      value={fullName}
+                      placeholder="Enter the occupation of the surety"
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="w-full px-4 py-8 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-400"
+                    />
+                  </div>
+
+                  <div className="mb-8">
+                    <label className="block text-sm font-bold text-gray-900 mb-2">
+                      Name and Account Number of the Bank where the surety has
+                      an account
+                    </label>
+                    <input
+                      type="text"
+                      value={fullName}
+                      placeholder="Enter the name and account number of the bank"
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="w-full px-4 py-8 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-400"
+                    />
+                  </div>
+
+                  <div className="mb-8">
+                    <label className="block text-sm font-bold text-gray-900 mb-2">
+                      Value of Real property
+                    </label>
+                    <input
+                      type="text"
+                      value={fullName}
+                      placeholder=" Enter the value of the real property "
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="w-full px-4 py-8 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-400"
+                    />
+                  </div>
+
+                  <div className="mb-8">
+                    <label className="block text-sm font-bold text-gray-900 mb-2">
+                      Salary/Income per annum
+                    </label>
+                    <input
+                      type="text"
+                      value={fullName}
+                      placeholder=" Enter the salary/income per annum of the surety"
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="w-full px-4 py-8 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] focus:border-transparent text-sm placeholder-gray-400"
+                    />
+                  </div>
+                </div>
 
                 <div className="flex items-center gap-4 pt-8 border-t border-gray-200">
                   <button className="flex items-center gap-2 text-gray-700 text-sm font-bold hover:text-gray-900">

@@ -10,7 +10,7 @@ import CreateApplication from "./pages/CreateApplication";
 import DeceasedInformation from "./pages/DeceasedInformation";
 import ApplicationType from "./pages/ApplicationType";
 import DocumentsUpload from "./pages/DocumentsUpload";
-
+import FinalApplicationReview from "./pages/FinalApplicationReview";
 
 const App = () => {
   return (
@@ -42,6 +42,10 @@ const App = () => {
             <Route
               path="/citizen/documentsupload"
               element={<DocumentsUpload />}
+            />
+            <Route
+              path="/citizen/finalapplicationreview"
+              element={<FinalApplicationReview />}
             />
           </Route>
         </Routes>

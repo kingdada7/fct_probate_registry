@@ -15,21 +15,19 @@ const assetSchema = new mongoose.Schema(
         "Other",
       ],
     },
-
     description: {
       type: String,
       required: true,
       trim: true,
       maxlength: 300,
     },
-
     value: {
       type: Number,
       required: true,
       min: 0,
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 const applicationTypeSchema = new mongoose.Schema(
@@ -42,7 +40,9 @@ const applicationTypeSchema = new mongoose.Schema(
 
     hasWill: {
       type: Boolean,
-      required: true,
+      default: function () {
+        return this.applicationType === "grant-probate";
+      },
     },
 
     estate: {
@@ -52,19 +52,16 @@ const applicationTypeSchema = new mongoose.Schema(
         min: 0,
       },
 
-      assets: {
-        type: [assetSchema],
-        default: [],
-      },
+      assets: [assetSchema],
 
-      // optional but VERY useful
+      
       calculatedTotal: {
         type: Number,
         default: 0,
       },
     },
   },
-  { _id: false }
+  { _id: false },
 );
 
 export default applicationTypeSchema;

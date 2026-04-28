@@ -175,7 +175,7 @@ function ApplicationType() {
             </div>
           </div>
 
-          <div className="space-y-6 col-span-3 "> 
+          <div className="space-y-6 col-span-3 ">
             <div className="bg-white rounded-lg border border-gray-200 p-6">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-6 h-6 bg-[#00b757] rounded-full flex items-center justify-center text-white font-bold text-sm">
@@ -242,7 +242,10 @@ function ApplicationType() {
                   Estimated Total Value of Estate (₦)
                 </label>
                 <div className="text-3xl font-black text-gray-900 mb-4">
-                  <input type="text" className="border border-gray-300 focus:ring-2 focus:ring-[#00b757] focus:outline-none rounded-md py-2 px-4" />
+                  <input
+                    type="text"
+                    className="border border-gray-300 focus:ring-2 focus:ring-[#00b757] focus:outline-none rounded-md py-2 px-4"
+                  />
                 </div>
                 <p className="text-sm text-[#00b757]">
                   This should represent the gross value of all movable and
@@ -268,37 +271,65 @@ function ApplicationType() {
               </div>
 
               <div className="overflow-x-auto mb-6">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-gray-200">
-                      <th className="text-left px-4 py-3 text-xs font-bold text-[#00b757] tracking-wide">
+                <table className=" w-full ">
+                  <thead className="bg-gray-100  ">
+                    <tr>
+                      <th className="px-6 py-3 text-xs font-bold text-[#00b757] tracking-wide text-left">
                         CATEGORY
-                        
                       </th>
-                      <th className="text-left px-4 py-3 text-xs font-bold text-[#00b757] tracking-wide">
+                      <th className="px-6 py-3 text-xs font-bold text-[#00b757] tracking-wide  text-left">
                         DESCRIPTION / PARTICULARS
                       </th>
-                      <th className="text-left px-4 py-3 text-xs font-bold text-[#00b757] tracking-wide">
+                      <th className="px-6 py-3 pl-50 text-xs font-bold text-[#00b757] tracking-wide text-right">
                         VALUE (₦)
                       </th>
-                      <th className="text-left px-4 py-3 text-xs font-bold text-[#00b757] tracking-wide"></th>
+                      <th className=" px-4 py-3 text-xs font-bold text-[#00b757] tracking-wide"></th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr className="border-b border-gray-200">
-                      <td className="px-4 py-4">
-                        <button className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-medium text-sm">
-                          <ChevronDown className="w-4 h-4" />
-                        </button>
+                      <td className="px-4 py-4 border-none">
+                        <div className="relative w-50">
+                          <select className="w-full px-4 py-3 pr-10 rounded-lg bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] text-sm text-gray-700">
+                            <option>Real Estate</option>
+                            <option>Bank Account</option>
+                            <option>Vehicle</option>
+                            <option>Shares</option>
+                            <option>Insurance</option>
+                            <option>Personal Property</option>
+                            <option>Other</option>
+                          </select>
+
+                          {/* Custom arrow */}
+                          <ChevronDown className="w-4 h-4 text-gray-500 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+                        </div>
                       </td>
-                      <td className="px-4 py-4 text-gray-700 text-sm"> </td>
-                      <td className="px-4 py-4 text-gray-900 font-semibold text-sm">
-                        ₦0
+
+                      <td className="px-4 py-4 text-gray-700 text-sm">
+                        <textarea
+                          name="assetDescription"
+                          id=""
+                          placeholder="e.g plot 442, maitama"
+                          className="w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] text-sm text-gray-700 resize-none "
+                        ></textarea>
                       </td>
-                      <td className="px-4 py-4">
-                        <button className="p-2 text-gray-600 hover:text-red-600">
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+
+                      <td className="px-4 py-4 text-gray-900 font-semibold text-sm text-right    ">
+                        <textarea
+                          name="assetValue"
+                          id=""
+                          placeholder="e.g 25,000,000"
+                          className="w-40 h-10 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1a5c3a] text-sm text-gray-700 resize-none "
+                        ></textarea>
+                      </td>
+
+                      {/* // Action buttons (Edit/Delete) - functionality to be implemented */}
+                      <td className="">
+                        <div className=" flex items-center justify-end gap-2 ">
+                          <button className="p-2 text-gray-600 hover:text-red-600 ">
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   </tbody>

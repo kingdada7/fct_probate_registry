@@ -4,7 +4,6 @@ const assetSchema = new mongoose.Schema(
   {
     category: {
       type: String,
-      required: true,
       enum: [
         "Real Estate",
         "Bank Account",
@@ -14,6 +13,7 @@ const assetSchema = new mongoose.Schema(
         "Personal Property",
         "Other",
       ],
+      required: true,
     },
     description: {
       type: String,
@@ -27,22 +27,20 @@ const assetSchema = new mongoose.Schema(
       min: 0,
     },
   },
-  { _id: false },
+  { _id: false }
 );
 
 const applicationTypeSchema = new mongoose.Schema(
   {
     applicationType: {
       type: String,
-      required: true,
       enum: ["grant-probate", "letters-admin"],
+      required: true,
     },
 
     hasWill: {
       type: Boolean,
-      default: function () {
-        return this.applicationType === "grant-probate";
-      },
+      default: false,
     },
 
     estate: {
@@ -52,16 +50,41 @@ const applicationTypeSchema = new mongoose.Schema(
         min: 0,
       },
 
-      assets: [assetSchema],
+      assets: {
+        type: [assetSchema],
+        default: [],
+      },
 
-      
       calculatedTotal: {
         type: Number,
         default: 0,
       },
     },
   },
-  { _id: false },
+  { _id: false }
 );
+
+applicationTypeSchema.pre("save", function (next) {
+  // auto-set hasWill
+  this.hasWill = this.applicationType === "grant-probate";
+
+  // calculate total
+  if (this.estate?.assets?.length) {
+    const total = this.estate.assets.reduce(
+      (sum, asset) => sum + asset.value,
+      0
+    );
+
+    this.estate.calculatedTotal = total;
+
+    if (this.estate.estimatedValue < total) {
+      return next(
+        new Error("Estimated value cannot be less than total asset value")
+      );
+    }
+  }
+
+  next();
+});
 
 export default applicationTypeSchema;

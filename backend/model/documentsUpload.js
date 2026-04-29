@@ -70,7 +70,9 @@ const documentsUploadSchema = new mongoose.Schema(
       default: "draft",
     },
   },
-  { timestamps: true },
+  {
+    _id: false,
+  },
 );
 
-export default mongoose.model("DocumentsUpload", documentsUploadSchema);
+export default documentsUploadSchema;

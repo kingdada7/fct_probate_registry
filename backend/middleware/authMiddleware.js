@@ -78,4 +78,4 @@ const authorize = (...roles) => {
   };
 };
 
-export { protect, superAdminOnly };
+export { protect, superAdminOnly, authorize };

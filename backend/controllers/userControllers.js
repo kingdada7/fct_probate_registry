@@ -22,12 +22,12 @@ export const updateApplication = async (req, res) => {
 
     if (!app) return res.status(404).json({ message: "Not found" });
 
-    // 🔒 Only owner
+    //  Only owner
     if (app.user.toString() !== req.user.id) {
       return res.status(403).json({ message: "Unauthorized" });
     }
 
-    // 🔒 Only draft editable
+    //  Only draft editable
     if (app.status !== "draft") {
       return res.status(400).json({ message: "Only draft can be edited" });
     }

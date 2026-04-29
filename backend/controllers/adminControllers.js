@@ -114,3 +114,79 @@ export const deleteStandardAdmin = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+// mark application as under review (admin action)
+export const markUnderReview = async (req, res) => {
+  try {
+    const app = await Application.findById(req.params.id);
+
+    if (!app) return res.status(404).json({ message: "Not found" });
+
+    if (!canTransition(app.status, "under_review")) {
+      return res.status(400).json({ message: "Invalid transition" });
+    }
+
+    app.status = "under_review";
+    app.reviewedBy = req.user.id;
+
+    await app.save();
+
+    res.json(app);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// mark application as approved (admin action)
+export const approveApplication = async (req, res) => {
+  try {
+    const app = await Application.findById(req.params.id);
+
+    if (!app) return res.status(404).json({ message: "Not found" });
+
+    if (!canTransition(app.status, "approved")) {
+      return res.status(400).json({ message: "Invalid transition" });
+    }
+
+    app.status = "approved";
+    app.reviewedBy = req.user.id;
+    app.reviewedAt = new Date();
+
+    await app.save();
+
+    res.json({ message: "Application approved", app });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// mark application as rejected (admin action)
+export const rejectApplication = async (req, res) => {
+  try {
+    const { reason } = req.body;
+
+    if (!reason) {
+      return res.status(400).json({ message: "Rejection reason required" });
+    }
+
+    const app = await Application.findById(req.params.id);
+
+    if (!app) return res.status(404).json({ message: "Not found" });
+
+    if (!canTransition(app.status, "rejected")) {
+      return res.status(400).json({ message: "Invalid transition" });
+    }
+
+    app.status = "rejected";
+    app.reviewedBy = req.user.id;
+    app.reviewedAt = new Date();
+    app.rejectionReason = reason;
+
+    await app.save();
+
+    res.json({ message: "Application rejected", app });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

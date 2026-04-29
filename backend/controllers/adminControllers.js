@@ -115,7 +115,6 @@ export const deleteStandardAdmin = async (req, res) => {
   }
 };
 
-
 // mark application as under review (admin action)
 export const markUnderReview = async (req, res) => {
   try {
